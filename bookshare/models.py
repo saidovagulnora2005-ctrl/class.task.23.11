@@ -28,13 +28,14 @@ class Book(models.Model):
         (4, '4'),
         (5, '5')
     ]
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
-    poster = models.ImageField(upload_to='bookshare/images')
+    poster = models.FileField(blank=True, null = True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=BOOK_STATUS)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null = True)
     rating = models.SmallIntegerField(choices=RATINGS)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField()
