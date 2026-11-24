@@ -8,7 +8,7 @@ class BookSerialzier(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class ShareSerializer(serializers.ModelSerializer):
     class Meta:
         model = Share
         fields = '__all__'  

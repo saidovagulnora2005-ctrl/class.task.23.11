@@ -1,29 +1,36 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serialziers import BookSerialzier, OrderSerializer, CitySerializer, CategorySerializer
-from rest_framework.permissions import IsAuthenticated
+from .serialziers import BookSerialzier, ShareSerializer, CitySerializer, CategorySerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Book, Share, City, Category
 
 
 class BookListCreateAPIView(ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerialzier
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [AllowAny()]
 
 
 class BookRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerialzier
     permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return Book.objects.filter(owner=self.request.user)
 
 
 class ShareListCreateAPIView(ListCreateAPIView):
     queryset = Share.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = ShareSerializer
 
 
 class ShareRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Share.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = ShareSerializer
 
 
 class CityListCreateAPIView(ListCreateAPIView):

@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'accounts',
     'bookshare',
     'drf_spectacular',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -120,10 +122,29 @@ MAILERS = {
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME' : timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATION_REFRESH_TOKEN': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    
+} 
+
+
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'My ShareBook Project',
-    'DESCRIPTION': 'SHAREBOOK PROJECT',
+    'TITLE': 'SG ShareBook Project',
+    'DESCRIPTION': 'MY SHAREBOOK PROJECT',
     'VERSION': '1.0.0',
 }
